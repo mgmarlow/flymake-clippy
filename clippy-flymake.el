@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 ;;; flymake-clippy.el --- Flymake backend for Clippy  -*- lexical-binding: t; -*-
-=======
-;;; flymake-clippy.el --- Flymake backend for cargo clippy  -*- lexical-binding: t; -*-
->>>>>>> @{-1}
 
 ;; Copyright (C) 2023  Graham Marlow
 
