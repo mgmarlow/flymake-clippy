@@ -1,4 +1,4 @@
-# flymake-clippy
+# clippy-flymake
 
 A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.html), the Rust linter.
 
