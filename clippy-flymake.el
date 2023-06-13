@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2023  Graham Marlow
 
-;; Author: Graham Marlow <mgmarlow@Grahams-Mac-mini.local>
+;; Author: Graham Marlow <info@mgmarlow.com>
 ;; Keywords: tools
 
 ;; This program is free software; you can redistribute it and/or modify
