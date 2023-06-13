@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defun clippy-flymake (report-fn &rest _args)
   "Flymake backend for cargo clippy."
   (unless (executable-find "cargo")
