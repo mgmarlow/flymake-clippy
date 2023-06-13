@@ -27,8 +27,43 @@
 
 (require 'cl-lib)
 
+;; Capture group source example:
+;; "warning: ..."
+;;    --> src/filename.rs
+;; 98 | ...
+(defun clippy--build-regexp (filename)
+  "Create a regular expression to search Clippy warnings for FILENAME."
+  (rx-to-string
+   `(seq line-start
+         ;; Message
+         (group "warning:"
+                (zero-or-more nonl))
+         "\n"
+         ;; File
+         (group
+          (zero-or-more nonl)
+          nonl ,filename)
+         ":"
+         ;; Line
+         (group
+          (one-or-more
+           (any "0-9")))
+         ":"
+         ;; Col
+         (group
+          (one-or-more
+           (any "0-9")))
+         line-end)))
+
+(defvar clippy--flymake-proc nil
+  "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
+
 (defun clippy-flymake (report-fn &rest _args)
-  "Flymake backend for cargo clippy."
+  "Flymake backend for cargo clippy. REPORT-FN is passed in via
+`flymake-diagnostic-functions' hook.
+
+Use `clippy-flymake-setup-backend' to register the backend
+with the appropriate Flymake hook."
   (unless (executable-find "cargo")
     (error "Cannot find cargo"))
 
@@ -52,11 +87,7 @@
                            ;; exposing them via `report-fn'.
                            (cl-loop
                             while (search-forward-regexp
-                                   ;; Capture group source example:
-                                   ;; "warning: ..."
-                                   ;;    --> src/filename.rs
-                                   ;; 98 | ...
-                                   (concat "^\\(warning:.*\\)\n\\(.*" filename "\\):\\([0-9]+\\):\\([0-9]+\\)$")
+                                   (clippy--build-regexp filename)
                                    nil t)
                             for msg = (match-string 1)
                             for (beg . end) = (flymake-diag-region
