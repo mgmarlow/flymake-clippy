@@ -1,0 +1,21 @@
+warning: unused variable: `user`
+  --> src/database/foo.rs:42:9
+   |
+42 |         user: &User,
+   |         ^^^^ help: if this is intentional, prefix it with an underscore: `_user`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: using `clone` on type `Status` which implements the `Copy` trait
+  --> src/foo.rs:31:29
+   |
+31 |             Some(status) => status.clone(),
+   |                             ^^^^^^^^^^^^^^ help: try dereferencing it: `*status`
+
+warning: unused variable: `user`
+  --> src/foobar/user.rs:42:9
+   |
+42 |         user: &User,
+   |         ^^^^ help: if this is intentional, prefix it with an underscore: `_user`
+   |
+   = note: `#[warn(unused_variables)]` on by default

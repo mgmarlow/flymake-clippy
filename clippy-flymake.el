@@ -31,7 +31,7 @@
 ;; "warning: ..."
 ;;    --> src/filename.rs
 ;; 98 | ...
-(defun clippy--build-regexp (filename)
+(defun clippy-flymake--build-regexp (filename)
   "Create a regular expression to search Clippy warnings for FILENAME."
   (rx-to-string
    `(seq line-start
@@ -55,10 +55,10 @@
            (any "0-9")))
          line-end)))
 
-(defvar clippy--flymake-proc nil
+(defvar clippy-flymake--proc nil
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
 
-(defun clippy-flymake (report-fn &rest _args)
+(defun clippy-flymake--check-buffer (report-fn &rest _args)
   "Flymake backend for cargo clippy. REPORT-FN is passed in via
 `flymake-diagnostic-functions' hook.
 
@@ -71,7 +71,7 @@ with the appropriate Flymake hook."
          (filename (file-name-nondirectory (buffer-file-name source))))
     (save-restriction
       (widen)
-      (setq clippy--flymake-proc
+      (setq clippy-flymake--proc
             (make-process
              :name "clippy-flymake" :noquery t :connection-type 'pipe
              :buffer (generate-new-buffer "*clippy-flymake*")
@@ -80,14 +80,14 @@ with the appropriate Flymake hook."
              (lambda (proc _event)
                (when (memq (process-status proc) '(exit signal))
                  (unwind-protect
-                     (if (with-current-buffer source (eq proc clippy--flymake-proc))
+                     (if (with-current-buffer source (eq proc clippy-flymake--proc))
                          (with-current-buffer (process-buffer proc)
                            (goto-char (point-min))
                            ;; Collect output buffer into diagnostic messages/locations,
                            ;; exposing them via `report-fn'.
                            (cl-loop
                             while (search-forward-regexp
-                                   (clippy--build-regexp filename)
+                                   (clippy-flymake--build-regexp filename)
                                    nil t)
                             for msg = (match-string 1)
                             for (beg . end) = (flymake-diag-region
@@ -102,12 +102,12 @@ with the appropriate Flymake hook."
                        (flymake-log :warning "Canceling obsolete check %s" proc))
                    ;; Cleanup temp buffer.
                    (kill-buffer (process-buffer proc)))))))
-      (process-send-region clippy--flymake-proc (point-min) (point-max))
-      (process-send-eof clippy--flymake-proc))))
+      (process-send-region clippy-flymake--proc (point-min) (point-max))
+      (process-send-eof clippy-flymake--proc))))
 
 (defun clippy-flymake-setup-backend ()
   "Add `clippy-flymake' to `flymake-diagnostic-functions' hook."
-  (add-hook 'flymake-diagnostic-functions #'clippy-flymake nil t))
+  (add-hook 'flymake-diagnostic-functions #'clippy-flymake--check-buffer nil t))
 
-(provide 'flymake-clippy)
-;;; flymake-clippy.el ends here
+(provide 'clippy-flymake)
+;;; clippy-flymake.el ends here
