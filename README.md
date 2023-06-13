@@ -7,6 +7,9 @@ A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.htm
 Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
 
 ```elisp
+(use-package clippy-flymake
+  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake))
+
 (add-hook 'rust-mode-hook #'clippy-flymake-setup-backend)
 ```
 
