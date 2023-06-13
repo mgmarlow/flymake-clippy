@@ -8,7 +8,7 @@ Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
 
 ```elisp
 (use-package clippy-flymake
-  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
+  :vc (:fetcher github :repo mgmarlow/clippy-flymake)
   :hook (rust-mode . clippy-flymake-setup-backend))
 ```
 
@@ -32,15 +32,17 @@ Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so
 
 ```elisp
 (use-package clippy-flymake
-  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
+  :vc (:fetcher github :repo mgmarlow/clippy-flymake)
   :hook (rust-mode . clippy-flymake-setup-backend))
+
+(defun manually-activate-flymake ()
+  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
+  (flymake-mode 1))
 
 (use-package eglot
   :ensure t
   :hook ((rust-mode . eglot-ensure)
-         (eglot--managed-mode . (lambda ()
-                                  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
-                                  (flymake-mode 1))))
+         (eglot--managed-mode . manually-activate-flymake))
   :config
   (add-to-list 'eglot-stay-out-of 'flymake))
 ```
