@@ -56,7 +56,7 @@
            (any "0-9")))
          line-end)))
 
-(defvar clippy-flymake--proc nil
+(defvar-local clippy-flymake--proc nil
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
 
 (defun clippy-flymake--check-buffer (report-fn &rest _args)
