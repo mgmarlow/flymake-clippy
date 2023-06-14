@@ -3,9 +3,9 @@
 (require 'clippy-flymake)
 (require 'ert)
 
-(defun run-regexp (filename)
+(defun run-regexp ()
   (set-match-data nil)
-  (search-forward-regexp (clippy-flymake--build-regexp filename) nil t)
+  (search-forward-regexp (clippy-flymake--build-regexp) nil t)
   (list (match-string 1)
         (match-string 2)
         (match-string 3)))
@@ -14,18 +14,16 @@
   "Tests regexp matches diagnostic information."
   (should (equal (with-temp-buffer
                    (insert-file-contents "./test/fixture.txt")
-                   (run-regexp "foo.rs"))
-                 '("warning: unused variable: `user`" "  --> src/database/foo.rs" "42")))
+                   (run-regexp))
+                 '("warning: unused variable: `user`" "src/database/foo.rs" "42")))
   (should (equal (with-temp-buffer
                    (insert-file-contents "./test/fixture.txt")
-                   (run-regexp "foo.rs")
-                   (run-regexp "foo.rs"))
-                 '("warning: using `clone` on type `Status` which implements the `Copy` trait" "  --> src/foo.rs" "31")))
+                   (run-regexp)
+                   (run-regexp))
+                 '("warning: using `clone` on type `Status` which implements the `Copy` trait" "src/foo.rs" "31")))
   (should (equal (with-temp-buffer
                    (insert-file-contents "./test/fixture.txt")
-                   (run-regexp "user.rs"))
-                 '("warning: unused variable: `user`" "  --> src/foobar/user.rs" "42")))
-  (should (equal (with-temp-buffer
-                   (insert-file-contents "./test/fixture.txt")
-                   (run-regexp "notfound.rs"))
-                 '(nil nil nil))))
+                   (run-regexp)
+                   (run-regexp)
+                   (run-regexp))
+                 '("warning: unused variable: `user`" "src/foobar/user.rs" "42"))))

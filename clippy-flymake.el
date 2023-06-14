@@ -31,7 +31,7 @@
 ;; "warning: ..."
 ;;    --> src/filename.rs
 ;; 98 | ...
-(defun clippy-flymake--build-regexp (filename)
+(defun clippy-flymake--build-regexp ()
   "Create a regular expression to search Clippy warnings for FILENAME."
   (rx-to-string
    `(seq line-start
@@ -39,10 +39,11 @@
          (group "warning:"
                 (zero-or-more nonl))
          "\n"
+         (zero-or-more nonl)
+          "--> "
          ;; File
          (group
-          (zero-or-more nonl)
-          nonl ,filename)
+          (zero-or-more nonl))
          ":"
          ;; Line
          (group
@@ -68,7 +69,7 @@ with the appropriate Flymake hook."
     (error "Cannot find cargo"))
 
   (let* ((source (current-buffer))
-         (filename (file-name-nondirectory (buffer-file-name source))))
+         (filename (buffer-file-name source)))
     (save-restriction
       (widen)
       (setq clippy-flymake--proc
@@ -87,15 +88,17 @@ with the appropriate Flymake hook."
                            ;; exposing them via `report-fn'.
                            (cl-loop
                             while (search-forward-regexp
-                                   (clippy-flymake--build-regexp filename)
+                                   (clippy-flymake--build-regexp)
                                    nil t)
                             for msg = (match-string 1)
+                            for sourcefile = (match-string 2)
                             for (beg . end) = (flymake-diag-region
                                                source
                                                (string-to-number (match-string 3)))
                             for type = (if (string-match "^warning" msg)
                                            :warning
                                          :error)
+                            when (and sourcefile (string-match-p sourcefile filename))
                             collect (flymake-make-diagnostic source beg end type msg)
                             into diags
                             finally (funcall report-fn diags)))
