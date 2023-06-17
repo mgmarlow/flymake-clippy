@@ -33,28 +33,27 @@
 ;; 98 | ...
 (defun clippy-flymake--build-regexp ()
   "Create a regular expression to search Clippy warnings for FILENAME."
-  (rx-to-string
-   `(seq line-start
-         ;; Message
-         (group "warning:"
-                (zero-or-more nonl))
-         "\n"
-         (zero-or-more nonl)
-          "--> "
-         ;; File
-         (group
-          (zero-or-more nonl))
-         ":"
-         ;; Line
-         (group
-          (one-or-more
-           (any "0-9")))
-         ":"
-         ;; Col
-         (group
-          (one-or-more
-           (any "0-9")))
-         line-end)))
+  (rx (seq line-start
+           ;; Message
+           (group "warning:"
+                  (zero-or-more nonl))
+           "\n"
+           (zero-or-more nonl)
+           "--> "
+           ;; File
+           (group
+            (zero-or-more nonl))
+           ":"
+           ;; Line
+           (group
+            (one-or-more
+             (any "0-9")))
+           ":"
+           ;; Col
+           (group
+            (one-or-more
+             (any "0-9")))
+           line-end)))
 
 (defvar-local clippy-flymake--proc nil
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
