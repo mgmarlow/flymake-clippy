@@ -8,7 +8,7 @@ Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
 
 ```elisp
 (use-package clippy-flymake
-  :vc (:fetcher github :repo mgmarlow/clippy-flymake)
+  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
   :hook (rust-mode . clippy-flymake-setup-backend))
 ```
 
@@ -32,7 +32,7 @@ Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so
 
 ```elisp
 (use-package clippy-flymake
-  :vc (:fetcher github :repo mgmarlow/clippy-flymake)
+  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
   :hook (rust-mode . clippy-flymake-setup-backend))
 
 (defun manually-activate-flymake ()
