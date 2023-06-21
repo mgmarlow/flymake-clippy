@@ -58,9 +58,9 @@
 (defvar-local clippy-flymake--proc nil
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
 
-(defun clippy-flymake--check-buffer (report-fn &rest _args)
-  "Flymake backend for cargo clippy. REPORT-FN is passed in via
-`flymake-diagnostic-functions' hook.
+(defun clippy-flymake-backend (report-fn &rest _args)
+  "Flymake backend for Clippy, the Rust linter. Calls REPORT-FN with a
+list of Flymake diagnostics for the current buffer.
 
 Use `clippy-flymake-setup-backend' to register the backend
 with the appropriate Flymake hook."
@@ -109,7 +109,7 @@ with the appropriate Flymake hook."
 
 (defun clippy-flymake-setup-backend ()
   "Add `clippy-flymake' to `flymake-diagnostic-functions' hook."
-  (add-hook 'flymake-diagnostic-functions #'clippy-flymake--check-buffer nil t))
+  (add-hook 'flymake-diagnostic-functions #'clippy-flymake-backend nil t))
 
 (provide 'clippy-flymake)
 ;;; clippy-flymake.el ends here

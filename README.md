@@ -12,7 +12,7 @@ Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
   :hook (rust-mode . clippy-flymake-setup-backend))
 ```
 
-## Eglot users
+### Eglot users
 
 Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so you'll need some extra code to make it cooperate:
 
@@ -50,5 +50,15 @@ Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so
 You can confirm that Flymake is running correctly by opening up a Rust buffer and examining `flymake-running-backends':
 
 ```
-Running backends: clippy-flymake, eglot-flymake-backend
+Running backends: clippy-flymake-backend, eglot-flymake-backend
 ```
+
+## Contributing
+
+Please contribute improvements via email to [the mailing list](https://lists.sr.ht/~mgmarlow/public-inbox) using [git send-email](https://git-send-email.io/). When posting patches, edit the `[PATCH]` line to include `clippy-flymake`:
+
+```
+[PATCH clippy-flymake] Add thing to stuff
+```
+
+Learn more about contributing via email from [Sourcehut's documentation](https://man.sr.ht/lists.sr.ht/etiquette.md).
