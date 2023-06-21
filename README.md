@@ -62,3 +62,7 @@ Please contribute improvements via email to [the mailing list](https://lists.sr.
 ```
 
 Learn more about contributing via email from [Sourcehut's documentation](https://man.sr.ht/lists.sr.ht/etiquette.md).
+
+## License
+
+Released under the [GPL-3.0 license](./LICENSE).
