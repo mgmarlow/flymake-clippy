@@ -4,7 +4,9 @@ A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.htm
 
 ## Instructions
 
-Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
+You probably want to install [rust-mode](https://github.com/rust-lang/rust-mode) first.
+
+With Emacs 29:
 
 ```elisp
 (use-package clippy-flymake
@@ -12,25 +14,47 @@ Use with [rust-mode](https://elpa.nongnu.org/nongnu/rust-mode.html):
   :hook (rust-mode . clippy-flymake-setup-backend))
 ```
 
+Alternatively, clone the repo and update your load path:
+
+```
+git clone https://git.sr.ht/~mgmarlow/clippy-flymake /path/to/clippy-flymake
+```
+
+```elisp
+(add-to-list 'load-path "/path/to/clippy-flymake")
+(require 'clippy-flymake)
+```
+
 ### Eglot users
 
-Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so you'll need some extra code to make it cooperate:
+Eglot users require [a little extra setup](https://github.com/joaotavora/eglot/issues/268) to enable running multiple Flymake backends simultaneously. Add the following to your Emacs config:
 
 ```elisp
 ;; Instruct Eglot to stop managing Flymake
 (add-to-list 'eglot-stay-out-of 'flymake)
 
-;; Add the Eglot hook to Flymake diagnostic functions so we don't lose Eglot
-;; functionality
-(add-hook 'eglot--managed-mode-hook
-          (lambda ()
-            (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
-            (flymake-mode 1)))
+;; Manually re-enable Eglot's Flymake backend
+(defun manually-activate-flymake ()
+  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
+  (flymake-mode 1))
+
+(add-hook 'eglot--managed-mode-hook #'manually-activate-flymake nil t)
 ```
 
-### Complete use-package example
+You can confirm that Flymake is running correctly by opening up a Rust buffer and examining `flymake-running-backends':
+
+```
+M-x flymake-running-backends
+
+Running backends: clippy-flymake-backend, eglot-flymake-backend
+```
+
+### Complete eglot + rust-mode + use-package example
 
 ```elisp
+(use-package rust-mode
+  :ensure t)
+
 (use-package clippy-flymake
   :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
   :hook (rust-mode . clippy-flymake-setup-backend))
@@ -47,22 +71,10 @@ Eglot [fully manages Flymake](https://github.com/joaotavora/eglot/issues/268) so
   (add-to-list 'eglot-stay-out-of 'flymake))
 ```
 
-You can confirm that Flymake is running correctly by opening up a Rust buffer and examining `flymake-running-backends':
-
-```
-Running backends: clippy-flymake-backend, eglot-flymake-backend
-```
-
 ## Contributing
 
-Please contribute improvements via email to [the mailing list](https://lists.sr.ht/~mgmarlow/public-inbox) using [git send-email](https://git-send-email.io/). When posting patches, edit the `[PATCH]` line to include `clippy-flymake`:
-
-```
-[PATCH clippy-flymake] Add thing to stuff
-```
-
-Learn more about contributing via email from [Sourcehut's documentation](https://man.sr.ht/lists.sr.ht/etiquette.md).
+Please direct bug reports or patches to the [the mailing list](https://lists.sr.ht/~mgmarlow/public-inbox).
 
 ## License
 
-Released under the [GPL-3.0 license](./LICENSE).
+Licensed under [GPL-3.0](./LICENSE).
