@@ -35,7 +35,7 @@
   "Create a regular expression to search Clippy warnings for FILENAME."
   (rx (seq line-start
            ;; Message
-           (group "warning:"
+           (group (or "warning:" "error:")
                   (zero-or-more nonl))
            "\n"
            (zero-or-more nonl)
