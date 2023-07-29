@@ -1,9 +1,12 @@
-;;; flymake-clippy.el --- Flymake backend for Clippy  -*- lexical-binding: t; -*-
+;;; clippy-flymake.el --- Flymake backend for Clippy  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Graham Marlow
 
 ;; Author: Graham Marlow <info@mgmarlow.com>
 ;; Keywords: tools
+;; URL: https://sr.ht/~mgmarlow/clippy-flymake/
+;; Version: 1.0.0
+;; Package-Requires: ((emacs "26.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -59,8 +62,10 @@
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
 
 (defun clippy-flymake-backend (report-fn &rest _args)
-  "Flymake backend for Clippy, the Rust linter. Calls REPORT-FN with a
-list of Flymake diagnostics for the current buffer.
+  "Flymake backend for Clippy, the Rust linter.
+
+Calls REPORT-FN with a list of Flymake diagnostics for the
+current buffer.
 
 Use `clippy-flymake-setup-backend' to register the backend
 with the appropriate Flymake hook."
@@ -112,4 +117,5 @@ with the appropriate Flymake hook."
   (add-hook 'flymake-diagnostic-functions #'clippy-flymake-backend nil t))
 
 (provide 'clippy-flymake)
+
 ;;; clippy-flymake.el ends here
