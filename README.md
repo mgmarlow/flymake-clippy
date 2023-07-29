@@ -6,14 +6,6 @@ A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.htm
 
 You probably want to install [rust-mode](https://github.com/rust-lang/rust-mode) first.
 
-With Emacs 29 and [vc-use-package](https://github.com/slotThe/vc-use-package):
-
-```elisp
-(use-package clippy-flymake
-  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
-  :hook (rust-mode . clippy-flymake-setup-backend))
-```
-
 With Emacs 30:
 
 ``` elisp
@@ -32,6 +24,8 @@ git clone https://git.sr.ht/~mgmarlow/clippy-flymake /path/to/clippy-flymake
 (add-to-list 'load-path "/path/to/clippy-flymake")
 (require 'clippy-flymake)
 ```
+
+Emacs versions prior to 30 can also install [use-package](https://github.com/jwiegley/use-package) and [vc-use-package](https://github.com/slotThe/vc-use-package) for an easier setup.
 
 ### Eglot users
 
@@ -60,28 +54,6 @@ Running backends: clippy-flymake-backend, eglot-flymake-backend
 ```
 
 ### Complete eglot + rust-mode + use-package example
-
-Prior to emacs 30 for the `:vc` specification, and prior to eglot 1.6 for the minor mode hook:
-
-```elisp
-(use-package rust-mode
-  :ensure t)
-
-(use-package clippy-flymake
-  :vc (:fetcher sourcehut :repo mgmarlow/clippy-flymake)
-  :hook (rust-mode . clippy-flymake-setup-backend))
-
-(defun manually-activate-flymake ()
-  (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
-  (flymake-mode 1))
-
-(use-package eglot
-  :ensure t
-  :hook ((rust-mode . eglot-ensure)
-         (eglot--managed-mode . manually-activate-flymake))
-  :config
-  (add-to-list 'eglot-stay-out-of 'flymake))
-```
 
 Emacs 30, eglot 1.6+:
 
