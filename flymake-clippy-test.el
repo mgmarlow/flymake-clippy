@@ -1,11 +1,11 @@
-;;; clippy-flymake-test.el   -*- lexical-binding: t; -*-
+;;; flymake-clippy-test.el   -*- lexical-binding: t; -*-
 
-(require 'clippy-flymake)
+(require 'flymake-clippy)
 (require 'ert)
 
 (defun run-regexp ()
   (set-match-data nil)
-  (search-forward-regexp (clippy-flymake--build-regexp) nil t)
+  (search-forward-regexp (flymake-clippy--build-regexp) nil t)
   (list (match-string 1)
         (match-string 2)
         (match-string 3)))

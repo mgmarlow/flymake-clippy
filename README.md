@@ -1,4 +1,4 @@
-# clippy-flymake
+# flymake-clippy
 
 A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.html), the Rust linter.
 
@@ -9,20 +9,20 @@ You probably want to install [rust-mode](https://github.com/rust-lang/rust-mode)
 With Emacs 30:
 
 ``` elisp
-(use-package clippy-flymake
-  :vc (:url "https://git.sr.ht/~mgmarlow/clippy-flymake" :branch main)
-  :hook (rust-mode . clippy-flymake-setup-backend))
+(use-package flymake-clippy
+  :vc (:url "https://git.sr.ht/~mgmarlow/flymake-clippy" :branch main)
+  :hook (rust-mode . flymake-clippy-setup-backend))
 ```
 
 Alternatively, clone the repo and update your load path:
 
 ```
-git clone https://git.sr.ht/~mgmarlow/clippy-flymake /path/to/clippy-flymake
+git clone https://git.sr.ht/~mgmarlow/flymake-clippy /path/to/flymake-clippy
 ```
 
 ```elisp
-(add-to-list 'load-path "/path/to/clippy-flymake")
-(require 'clippy-flymake)
+(add-to-list 'load-path "/path/to/flymake-clippy")
+(require 'flymake-clippy)
 ```
 
 Emacs versions prior to 30 can also install [use-package](https://github.com/jwiegley/use-package) and [vc-use-package](https://github.com/slotThe/vc-use-package) for an easier setup.
@@ -50,7 +50,7 @@ You can confirm that Flymake is running correctly by opening up a Rust buffer an
 ```
 M-x flymake-running-backends
 
-Running backends: clippy-flymake-backend, eglot-flymake-backend
+Running backends: flymake-clippy-backend, eglot-flymake-backend
 ```
 
 ### Complete eglot + rust-mode + use-package example
@@ -61,9 +61,9 @@ Emacs 30, eglot 1.6+:
 (use-package rust-mode
   :ensure t)
 
-(use-package clippy-flymake
-  :vc (:url "https://git.sr.ht/~mgmarlow/clippy-flymake" :branch main)
-  :hook (rust-mode . clippy-flymake-setup-backend))
+(use-package flymake-clippy
+  :vc (:url "https://git.sr.ht/~mgmarlow/flymake-clippy" :branch main)
+  :hook (rust-mode . flymake-clippy-setup-backend))
 
 (defun manually-activate-flymake ()
   (add-hook 'flymake-diagnostic-functions #'eglot-flymake-backend nil t)
