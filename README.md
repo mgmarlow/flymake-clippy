@@ -54,7 +54,7 @@ Running backends: flymake-clippy-backend, eglot-flymake-backend
 
 ### Complete eglot + rust-mode + use-package example
 
-Emacs 30, eglot 1.6+:
+Eglot 1.6+:
 
 ```elisp
 (use-package rust-mode
