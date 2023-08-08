@@ -8,7 +8,7 @@ A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.htm
 
 You probably want to install [rust-mode](https://github.com/rust-lang/rust-mode) first.
 
-Install from MELPA:
+Install from [MELPA](https://melpa.org/#/getting-started):
 
 ``` elisp
 (use-package flymake-clippy
@@ -54,7 +54,7 @@ Running backends: flymake-clippy-backend, eglot-flymake-backend
 
 ### Complete eglot + rust-mode + use-package example
 
-Eglot 1.6+:
+With Eglot 1.6+:
 
 ```elisp
 (use-package rust-mode
