@@ -1,6 +1,6 @@
 # flymake-clippy
 
-[![MELPA](https://melpa.org/packages/flymake-coffee-badge.svg)](https://melpa.org/#/flymake-coffee)
+[![MELPA](https://melpa.org/packages/flymake-clippy-badge.svg)](https://melpa.org/#/flymake-clippy)
 
 A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.html), the Rust linter.
 
