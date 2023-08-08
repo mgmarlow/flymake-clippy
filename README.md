@@ -1,16 +1,17 @@
 # flymake-clippy
 
+[![MELPA](https://melpa.org/packages/flymake-coffee-badge.svg)](https://melpa.org/#/flymake-coffee)
+
 A Flymake backend for [Clippy](https://doc.rust-lang.org/stable/clippy/index.html), the Rust linter.
 
 ## Instructions
 
 You probably want to install [rust-mode](https://github.com/rust-lang/rust-mode) first.
 
-With Emacs 30:
+Install from MELPA:
 
 ``` elisp
 (use-package flymake-clippy
-  :vc (:url "https://git.sr.ht/~mgmarlow/flymake-clippy" :branch main)
   :hook (rust-mode . flymake-clippy-setup-backend))
 ```
 
@@ -24,8 +25,6 @@ git clone https://git.sr.ht/~mgmarlow/flymake-clippy /path/to/flymake-clippy
 (add-to-list 'load-path "/path/to/flymake-clippy")
 (require 'flymake-clippy)
 ```
-
-Emacs versions prior to 30 can also install [use-package](https://github.com/jwiegley/use-package) and [vc-use-package](https://github.com/slotThe/vc-use-package) for an easier setup.
 
 ### Eglot users
 
@@ -62,7 +61,6 @@ Emacs 30, eglot 1.6+:
   :ensure t)
 
 (use-package flymake-clippy
-  :vc (:url "https://git.sr.ht/~mgmarlow/flymake-clippy" :branch main)
   :hook (rust-mode . flymake-clippy-setup-backend))
 
 (defun manually-activate-flymake ()
