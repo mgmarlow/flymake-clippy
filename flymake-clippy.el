@@ -5,7 +5,7 @@
 ;; Author: Graham Marlow <info@mgmarlow.com>
 ;; Keywords: tools
 ;; URL: https://sr.ht/~mgmarlow/flymake-clippy/
-;; Version: 1.0.0
+;; Version: 1.0.1
 ;; Package-Requires: ((emacs "26.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,9 @@
   "Regexp for Clippy output."
   (rx (seq line-start
            ;; Message
-           (group (or "warning:" "error:")
+           (group (or "warning" "error")
+                  (zero-or-one (seq "[" (repeat 5 alphanumeric) "]"))
+                  ":"
                   (zero-or-more nonl))
            "\n"
            (zero-or-more nonl)
