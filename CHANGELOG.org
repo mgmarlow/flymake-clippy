@@ -1,0 +1,7 @@
+* flymake-clippy changelog
+
+** 1.1.0 (11/02/23)
+
+- Add ~flymake-clippy-bin-args~. You can now pass arguments to ~cargo
+  clippy~ via the ~flymake-clippy-bin-args~ custom variable. Kudos to
+  Jens Östlund for this feature!
