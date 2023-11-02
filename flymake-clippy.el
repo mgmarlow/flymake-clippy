@@ -5,7 +5,7 @@
 ;; Author: Graham Marlow <info@mgmarlow.com>
 ;; Keywords: tools
 ;; URL: https://sr.ht/~mgmarlow/flymake-clippy/
-;; Version: 1.0.1
+;; Version: 1.1.0
 ;; Package-Requires: ((emacs "26.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -31,6 +31,18 @@
 ;;; Code:
 
 (require 'cl-lib)
+
+(defgroup flymake-clippy nil
+  "Flymake backend for Clippy."
+  :group 'programming)
+
+(defcustom flymake-clippy-bin-args nil
+  "A list of arguments passed to the `cargo clippy' command.
+
+For example, a value of `(\"--\" \"-W\" \"clippy::pedantic\")'
+results in the command `cargo clippy -- -W clippy::pedantic'."
+  :type '(repeat string)
+  :group 'flymake-clippy)
 
 ;; Capture group source example:
 ;; "warning: ..."
@@ -62,6 +74,9 @@
              (any "0-9")))
            line-end)))
 
+(defun flymake-clippy--bin ()
+  (append (list "cargo" "clippy") flymake-clippy-bin-args))
+
 (defvar-local flymake-clippy--proc nil
   "Clippy subprocess object, used to ensure obsolete processes aren't reused.")
 
@@ -84,7 +99,7 @@ with the appropriate Flymake hook."
             (make-process
              :name "flymake-clippy" :noquery t :connection-type 'pipe
              :buffer (generate-new-buffer "*flymake-clippy*")
-             :command '("cargo" "clippy")
+             :command (flymake-clippy--bin)
              :sentinel
              (lambda (proc _event)
                (when (memq (process-status proc) '(exit signal))
